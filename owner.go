@@ -3,6 +3,7 @@ package ivavigofork
 
 import (
 	"os"
+	"encoding/json"
 )
 
 
@@ -26,7 +27,7 @@ type owner struct {
 }
 
 
-func (self *owner) init() owner {
+func initOwner(own owner) owner {
 	file, err := os.OpenFile(ownerPath, os.O_RDWR|os.O_CREATE, 0600)
 	if err != nil {
 		panic(err)
@@ -44,5 +45,12 @@ func (self *owner) init() owner {
 
 	defer file.Close()
 
-	return *self
+	rawFileData, err := os.ReadFile(ownerPath)
+	if err != nil {
+		panic(err)
+	}
+
+	json.Unmarshal(rawFileData, &own)
+
+	return own
 }

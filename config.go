@@ -27,7 +27,7 @@ type config struct {
 
 
 func init_config() config {
-	con := &config{}
+	con := config{}
 	file, err := os.OpenFile(configPath, os.O_RDWR|os.O_CREATE, 0600)
 	if err != nil {
 		panic(err)
@@ -55,7 +55,7 @@ func init_config() config {
 
 	json.Unmarshal(rawFileData, &con)
 
-	return *con
+	return con
 }
 
 var Config = init_config()
